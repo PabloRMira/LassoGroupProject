@@ -1,0 +1,13 @@
+Package: LassoGroupProject
+Title: Replicate results of the project by the Lasso-Group
+Version: 1.0
+Authors@R: c(person("Pablo", "Rodriguez Mira", role = c("aut", "cre"), email = "rodriguez.mira.pablo@gmail.com"), person("Nicolas", "Zimmer", role = "aut"), person("Chong", "Miao", role = "aut"))
+Author: Pablo Rodriguez Mira [aut, cre], Nicolas Zimmer [aut], Chong Miao [aut]
+Maintainer: Pablo Rodriguez Mira <rodriguez.mira.pablo@gmail.com>
+Description: This package was created to replicate the results of the project of the Lasso-group in a straightforward manner.
+Depends: R (>= 3.4.3), ggplot2
+Imports: glmnet, lars, tictoc, MASS, reshape, stargazer
+License: MIT
+Encoding: UTF-8
+LazyData: True
+RoxygenNote: 6.0.1.9000
