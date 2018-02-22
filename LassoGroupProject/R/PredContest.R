@@ -253,7 +253,9 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
       
       ggsave(filename=paste0("PredContest_Sigma_", sigma, "_p_", p, ".pdf"),
              plot=pt,
-             scale=1.3)
+             height=9,
+             width=15,
+             units="cm")
     }
   }
   tictoc::toc(log=TRUE)

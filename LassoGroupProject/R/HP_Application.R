@@ -96,7 +96,8 @@ HP_Application <- function(path = getwd(),
   adaMSPE <- model$cvm[model$lambda == lambda]
 
   # Extract coefficients
-  adaCoeffi <- as.vector(coef(model, s=lambda))
+  coeffi <- coef(model, s=lambda)
+  adaCoeffi <- as.vector(coeffi)
   
   # Get normalized coefficients by multiplying 
   # each coefficient with the standard deviation
@@ -185,7 +186,6 @@ HP_Application <- function(path = getwd(),
   fullTable[[1]] <- gsub("[.]", " ", fullTable[[1]])
 
   setwd(appPath)
-
   if (mccv == TRUE) {
     # Monte Carlo Cross-Validation
     lassoMCCVASPE <- mean(lassoCVASPE)
