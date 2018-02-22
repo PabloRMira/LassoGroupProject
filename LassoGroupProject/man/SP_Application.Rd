@@ -4,7 +4,7 @@
 \alias{SP_Application}
 \title{Replicate the results of the stock prices application}
 \usage{
-SP_Application(path = getwd(), adaGamma = 2, mccv = TRUE, cvIter = 100,
+SP_Application(path = getwd(), adaGamma = 1, mccv = TRUE, cvIter = 100,
   seed = 123)
 }
 \arguments{

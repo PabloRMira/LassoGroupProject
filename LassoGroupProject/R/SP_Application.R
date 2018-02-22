@@ -13,7 +13,7 @@
 #' @keywords LassoGroupProject
 #' @export
 SP_Application <- function(path = getwd(),
-                           adaGamma = 2,
+                           adaGamma = 1,
                            mccv = TRUE,
                            cvIter = 100,
                            seed = 123) {
@@ -182,7 +182,8 @@ SP_Application <- function(path = getwd(),
                         "Adaptive Lasso")
   # Substitute points by spaces in name
   fullTable[[1]] <- gsub("[.]", " ", fullTable[[1]])
-  
+  fullTable[is.na(fullTable)] <- " "
+    
   setwd(appPath)
   
   if (mccv == TRUE) {

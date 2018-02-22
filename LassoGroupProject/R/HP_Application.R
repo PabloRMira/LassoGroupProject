@@ -183,6 +183,7 @@ HP_Application <- function(path = getwd(),
                         "Adaptive Lasso")
   # Substitute points by spaces in name
   fullTable[[1]] <- gsub("[.]", " ", fullTable[[1]])
+  fullTable[is.na(fullTable)] <- " "
   
   setwd(appPath)
 
