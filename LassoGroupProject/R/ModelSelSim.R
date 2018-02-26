@@ -12,18 +12,28 @@
 #' @param sigma Standard deviation of the noise for the regression model.
 #' @param adaGamma Gamma parameter for the adaptive Lasso. Default is 2.
 #' @param seed Seed for the simulations
-#' @return A (Two) pdf-file(s) exported to your path
+#' @return A (Two) pdf-file(s) exported to your path. Moreover, the 
+#' results are also saved in a list if you assign a variable 
+#' to the function as in the example below.
 #' @keywords LassoGroupProject
 #' @export
+#' @examples results <- ModelSelSim() # It takes around 1 hour
 ModelSelSim <- function(path = getwd(), scenario = c("big", "small"), 
                      nObs = 1000, p = 50, nSim = 100, nDesigns = 100, 
                      sigma = 0.1, adaGamma = 2, seed = 481) {
 
   # Call ggplot
   library("ggplot2")
-  
+
+  # Save current directory to return back
+  currentDir <- getwd()
+
+  # Create folder structure if it does not exist
+  simPath <- file.path(path, "Model_Selection_Simulation")
+  dir.create(simPath, showWarnings = FALSE)
+
   # Set working directory for exporting the graphs
-  setwd(path)
+  setwd(simPath)
     
   # Set seed
   set.seed(seed)
@@ -55,9 +65,9 @@ ModelSelSim <- function(path = getwd(), scenario = c("big", "small"),
   tictoc::tic() # Count time
   for (i in 1:nModels) {
     
-    if (scenario == "big" && i == 2) next 
+    if (scenario[i] == "big" && i == 2) next 
     
-    if (scenario == "small" && i == 1) {
+    if (scenario[i] == "small" && i == 1) {
       print(paste0("Scenario number: ", 1, " of ", nModels))
       next
     }
@@ -197,7 +207,15 @@ ModelSelSim <- function(path = getwd(), scenario = c("big", "small"),
       facet_grid(. ~ model) +
       theme(plot.title = element_text(hjust = 0.5),
             plot.subtitle = element_text(hjust = 0.5))
-    ggsave(filename = "Lasso_AdaLasso_IR_BigCoef.pdf", plot = pt, device = pdf)
+    ggsave(filename = "Lasso_AdaLasso_IR_BigCoef.pdf", 
+           plot = pt, 
+           device = pdf,
+           height=9,
+           width=15,
+           units="cm")
+    
+    # Save results in a list to return
+    ModelSelResults <- list(BigCoef = IRframe)
   }
   
   if ("small" %in% scenario) {
@@ -217,7 +235,23 @@ ModelSelSim <- function(path = getwd(), scenario = c("big", "small"),
       facet_grid(. ~ model) +
       theme(plot.title = element_text(hjust = 0.5),
             plot.subtitle = element_text(hjust = 0.5))
-    ggsave(filename="Lasso_AdaLasso_IR_SmallCoef.pdf", plot = pt, device = pdf)    
+    ggsave(filename="Lasso_AdaLasso_IR_SmallCoef.pdf", 
+           plot = pt, 
+           device = pdf,
+           height=9,
+           width=15,
+           units="cm")
+    
+    # Save results in a list to return
+    if ("big" %in% scenario) {
+      ModelSelResults[["SmallCoef"]] <- IRframe
+    } else {
+      ModelSelResults <- list(SmallCoef = IRframe)
+    }
   }
-
+  # Return results
+  return(ModelSelResults)
+  
+  # Return to the directory at the beginning
+  setwd(currentDir)
 }

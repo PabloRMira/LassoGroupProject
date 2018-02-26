@@ -20,7 +20,10 @@ SP_Application <- function(path = getwd(),
   
   # Call ggplot
   library("ggplot2", suppressPackageStartupMessages())
-  
+
+  # Get current directory to return back
+  currentDir <- getwd()
+    
   # Create folder structure if it does not exist
   appPath <- file.path(path, "Application_SP")
   dir.create(appPath, showWarnings = FALSE)
@@ -248,4 +251,7 @@ SP_Application <- function(path = getwd(),
          height=9,
          width=15,
          units="cm")
+  
+  # Return back
+  setwd(currentDir)
 }

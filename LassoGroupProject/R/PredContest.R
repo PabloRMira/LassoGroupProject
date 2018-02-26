@@ -11,7 +11,8 @@
 #' @param adaGamma Gamma parameter for the adaptive Lasso. Default is 2.
 #' @param seed Seed for the simulations
 #' @return (Number of variable choices x Number of noise levels) plots and 
-#' tables in LaTeX and html.
+#' tables in LaTeX and html. Moreover, the results are also saved in a list
+#' if you assign a variable to the function as in the example below.
 #' @details This function creates a new directory in the directory specified
 #' in the 'path' argument named 'Prediction_Contest'. This directory in turn
 #' include two subdirectories, 'Plots' and 'Tables'. Finally, in the 'Tables'
@@ -19,13 +20,17 @@
 #' in html-format and 'LaTeX' for the result tables in LaTeX format.
 #' @keywords LassoGroupProject
 #' @export
+#' @examples results <- PredContest() # It takes long time (around 5 hours)
 PredContest <- function(path = getwd(), pList = c(50, 100),
-                        sigmaList = c(1, 5, 25), nObs = 1000,
-                        nSim = 100, adaGamma = 2, seed = 512) {
+                        sigmaList = c(1, 5, 25), nObs = 500,
+                        nSim = 100, adaGamma = 2, seed = 823) {
 
   # Call ggplot
   library("ggplot2")
 
+  # Save current directory to return back
+  currentDir <- getwd()
+  
   # Create folder structure if it does not exist
   simPath <- file.path(path, "Prediction_Contest")
   plotsPath <- file.path(simPath, "Plots")
@@ -50,6 +55,12 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
 
   # Non-zero coefficients  
   nzCoef <- c(-5, 4, 10, -7, 8, 4, 9, -8, -3, 8)
+
+  # Initialize container list for the results
+  PredResults <- list()
+  
+  # Initialize counter for the list index
+  countList <- 0
   
   # Loop over scenarios (low vs high sparseness)
   tictoc::tic.clearlog() 
@@ -100,6 +111,9 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
       print(paste0("Sigma scenario: ", j, " of ", nSigmas))
       sigma <- sigmaList[j]
       
+      # Update counter for list
+      countList <- countList + 1
+      
       # Signal-to-noise Ratio
       # definition in Bühlmann and van der Geer
       snratio <- sqrt(sum(truth^2)) / (sqrt(nObs) * sigma)
@@ -140,6 +154,7 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
         # Standard Lasso with Coordinate Descent (glmnet) 
         lassoModel <- glmnet::cv.glmnet(X, y, alpha = 1, 
                                         standardize = FALSE)
+        # lambdaOpt <- adaLassoModel$lambda.min
         lambdaOpt <- lassoModel$lambda.min
         
         # Lasso fit
@@ -150,7 +165,7 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
         ############ Adaptive Lasso #################
         #############################################
         
-        weights <- 1 / olsCoef^adaGamma
+        weights <- 1 / abs(olsCoef)^adaGamma
         adaLassoModel <- glmnet::cv.glmnet(X, y, alpha = 1, 
                                            standardize = FALSE,
                                            penalty.factor=weights)
@@ -194,6 +209,10 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
       names(sparseTable) <- c("Squared ABias", "AVariance", "AMSPE")
       rownames(sparseTable) <- c("OLS", "Lasso", "Adaptive Lasso", "Forward Stepwise",
                                  "Backward Stepwise")
+      
+      # Save results in a list
+      PredResults[[countList]] <- sparseTable
+      names(PredResults)[countList] <- paste0("Sigma_", sigma, "_p_", p)
       
       # Save in corresponding folder
       setwd(htmlPath)
@@ -254,9 +273,15 @@ PredContest <- function(path = getwd(), pList = c(50, 100),
       ggsave(filename=paste0("PredContest_Sigma_", sigma, "_p_", p, ".pdf"),
              plot=pt,
              height=9,
-             width=15,
+             width=17,
              units="cm")
     }
   }
   tictoc::toc(log=TRUE)
+  
+  # Return results
+  return(PredResults)
+  
+  # Return back to initial directory
+  setwd(currentDir)
 }

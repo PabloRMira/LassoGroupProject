@@ -3,18 +3,93 @@
 \docType{data}
 \name{sp_data}
 \alias{sp_data}
-\title{S&P dataset}
-\format{A data frame with 231 rows and 76 variables:
+\title{Dataset for the application part: Prices and fundamentals.}
+\format{A data frame with 231 rows and 75 variables:
 \describe{
- \item{After Tax ROE}{Return on Equity = Net 
- Income/Shareholder's Equity}
+  \item{Accounts Payable}{Accounts Payable, in US dollars}
+  \item{Accounts Receivable}{Accounts Receivable, in US dollars}
+  \item{Add'l income/expense items}{Add'l income or expense items, in US dollars}
+  \item{After Tax ROE}{Return on Equity = Net Income/Shareholder's Equity, in ratio}
+  \item{avg_price}{Log of the average price one month before and one month after the financial 
+  statements date, in log value of the original US dollars price}
+  \item{Capital Expenditures}{Capital Expenditures, in US dollars}
+  \item{Capital Surplus}{Capital Surplus, in US dollars}
+  \item{Cash Ratio}{The ratio of a company's total cash and cash equivalents to its current liabilities, in ratio}
+  \item{Cash and Cash Equivalents}{Cash and Cash Equivalents, in US dollars}
+  \item{Changes in Inventories}{Changes in Inventories, in US dollars}
+  \item{Common Stocks}{Common Stocks shares, in shares}
+  \item{Cost of Revenue}{Cost of Revenue, in US dollars}
+  \item{Current Ratio}{Current assets divided by current liabilities, in ratio}
+  \item{Deferred Asset Charges}{A deferred charge is an expenditure that is paid for in one accounting period, but for which the underlying asset will not be entirely consumed until one or more future periods have been completed, in US dollars}
+  \item{Deferred Liability Charges}{Deferred Liability Charges, in US dollars}
+  \item{Depreciation}{Depreciation, in US dollars}
+  \item{Earnings Before Interest and Tax}{Earnings Before Interest and Tax, in US dollars}
+  \item{Earnings Before Tax}{Earnings Before Tax, in US dollars}
+  \item{Effect of Exchange Rate}{Effect of Exchange Rate, in US dollars}
+  \item{Equity Earnings Loss Unconsolidated Subsidiary}{Equity Earnings Loss Unconsolidated Subsidiary, in US dollars}
+  \item{Fixed Assets}{Fixed Assets, in US dollars}
+  \item{Goodwill}{Goodwill, in US dollars}
+  \item{Gross margin}{The difference between revenue and cost of goods sold (COGS) divided by revenue, in ratio}
+  \item{Gross Profit}{Gross Profit, in US dollars}
+  \item{Income Tax}{Income Tax, in US dollars}
+  \item{Intangible Assets}{Intangible Assets, in US dollars}
+  \item{Interest Expense}{Interest Expense, in US dollars}
+  \item{Inventory}{The raw materials, work-in-process products and finished goods that are considered to be the portion of a business's assets that are ready or will be ready for sale, in US dollars}
+  \item{Investments}{Investments, in US dollars}
+  \item{Liabilities}{Liabilities, in US dollars}
+  \item{Long Term Debt}{Long Term Debt, in US dollars}
+  \item{Long-term investments}{The name of an asset account that includes all investments that are not expected to be liquidated within the next twelve months, in US dollars}
+  \item{Minority Interest}{Minority Interest, in US dollars}
+  \item{MiscStocks}{Misc Stocks Options Warrants, in US dollars}
+  \item{Net Borrowings}{The difference between the amount that a company has borrowed and the amount of cash that it has, in US dollars}
+  \item{Net Cash Flow}{Net Cash Flow, in US dollars}
+  \item{Net Cash Flow-Operating}{Net Cash Flow Operating, in US dollars}
+  \item{Net Cash Flows-Financing }{Net Cash Flows Financing , in US dollars}
+  \item{Net Cash Flows-Investing }{Net Cash Flows Investing , in US dollars}
+  \item{Net Income}{Net Income, in US dollars}
+  \item{Net Income Adjustments}{Net Income Adjustments, in US dollars}
+  \item{Net Income Applicable to Common Shareholders}{Net Income Applicable to Common Shareholders, in US dollars}
+  \item{Net Income-Cont.Operations}{Net Income ContOperations, in US dollars}
+  \item{Net Receivables}{Net Receivables, in US dollars}
+  \item{Non Recurring Items}{Non Recurring Items, in US dollars}
+  \item{Operating Income}{Operating Income, in US dollars}
+  \item{Operating margin}{Measurement of what proportion of a company's revenue is left over after paying for variable costs of production such as wages, raw materials, etc, in ratio}
+  \item{Other Assets}{Other Assets, in US dollars}
+  \item{Other Current Assets}{Other Current Assets, in US dollars}
+  \item{Other current liabilities}{Line item in the balance sheet, which aggregates several current liability accounts that are too minor to report separately, in US dollars}
+  \item{Other Equity}{Other Equity, in US dollars}
+  \item{Other Financing Activities}{Other Financing Activities, in US dollars}
+  \item{Other Investing Activities}{Other Investing Activities, in US dollars}
+  \item{Other Liabilities}{Other Liabilities, in US dollars}
+  \item{Other Operating Activities}{Other Operating Activities, in US dollars}
+  \item{Other Operating Items}{Other Operating Items, in US dollars}
+  \item{Pre Tax Margin}{Pre Tax Margin, in ratio}
+  \item{Pre Tax ROE}{Pre Tax ROE, in US dollars}
+  \item{Profit Margin}{Profit Margin, in ratio}
+  \item{Quick Ratio}{Quick Ratio, ratio}
+  \item{Research and Development}{Research and Development, in US dollars}
+  \item{Retained earnings}{The percentage of net earnings not paid out as dividends, but retained by the company to be reinvested in its core business, or to pay debt, in US dollars}
+  \item{Sale and Purchase of Stock}{Sale and Purchase of Stock, in US dollars}
+  \item{Sales,General and Admin}{Sales, general and administrative expense, in US dollars}
+  \item{Short Term Debt/Current Portion of Long Term Debt}{Short Term Debt/Current Portion of Long Term Debt, in ratio}
+  \item{Short Term Investments }{Short Term Investments , in US dollars}
+  \item{Total Assets}{Total Assets, in US dollars}
+  \item{Total Current Assets }{Total Current Assets , in US dollars}
+  \item{Total Current Liabilities}{Total Current Liabilities, in US dollars}
+  \item{Total Equity}{Total Equity, in US dollars}
+  \item{Total Liabilities}{Total Liabilities, in US dollars}
+  \item{Total Liabilities Equity}{Total Liabilities Equity, in US dollars}
+  \item{Total Revenue}{Total Revenue, in US dollars}
+  \item{Treasury stocks}{Shares that were once a part of the float and shares outstanding but were subsequently repurchased by the company and decommissioned. These stocks do not have voting rights and do not pay any distributions, in US dollars}
+  \item{Earnings Per Share}{The portion of a company's profit allocated to each outstanding share of common stock, in US dollars}
+  \item{Estimated Shares Outstanding}{The weighted average of outstanding shares is a calculation that incorporates any changes in the amount of outstanding shares over a reporting period, in US dollars}
 }}
 \source{
-\url{https://www.kaggle.com/camnugent/sandp500/data}
+\url{https://www.kaggle.com/dgawlik/nyse/data}
 }
 \description{
-A dataset containing information about stock prices
-and relevant information from the financial statements
-of large companies which have common stocks listed
-on NYSE and NASDAQ.
+A dataset containing the prices and other attributes of stocks 
+from 231 companies. Prices were fetched from Yahoo Finance, 
+fundamentals are from Nasdaq Financials, extended by some fields 
+from EDGAR SEC databases.
 }

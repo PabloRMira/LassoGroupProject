@@ -5,7 +5,7 @@
 \title{Replicate the results of the prediction contest simulation study}
 \usage{
 PredContest(path = getwd(), pList = c(50, 100), sigmaList = c(1, 5, 25),
-  nObs = 1000, nSim = 100, adaGamma = 2, seed = 512)
+  nObs = 500, nSim = 100, adaGamma = 2, seed = 823)
 }
 \arguments{
 \item{path}{The path to which you want the results to be exported to.}
@@ -24,7 +24,8 @@ PredContest(path = getwd(), pList = c(50, 100), sigmaList = c(1, 5, 25),
 }
 \value{
 (Number of variable choices x Number of noise levels) plots and 
-tables in LaTeX and html.
+tables in LaTeX and html. Moreover, the results are also saved in a list
+if you assign a variable to the function as in the example below.
 }
 \description{
 Replicate the results of the Monte Carlo Simulation for the prediction
@@ -37,5 +38,8 @@ in the 'path' argument named 'Prediction_Contest'. This directory in turn
 include two subdirectories, 'Plots' and 'Tables'. Finally, in the 'Tables'
 directory are included two directories more, 'HTML' for the result tables
 in html-format and 'LaTeX' for the result tables in LaTeX format.
+}
+\examples{
+results <- PredContest() # It takes long time (around 5 hours)
 }
 \keyword{LassoGroupProject}

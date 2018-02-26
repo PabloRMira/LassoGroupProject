@@ -28,11 +28,16 @@ ModelSelSim(path = getwd(), scenario = c("big", "small"), nObs = 1000,
 \item{seed}{Seed for the simulations}
 }
 \value{
-A (Two) pdf-file(s) exported to your path
+A (Two) pdf-file(s) exported to your path. Moreover, the 
+results are also saved in a list if you assign a variable 
+to the function as in the example below.
 }
 \description{
 Replicate the results of the Monte Carlo Simulation for the model selection
 consistency study. The default values are set such that the results you obtain
 are the same as in our term paper.
+}
+\examples{
+results <- ModelSelSim() # It takes around 1 hour
 }
 \keyword{LassoGroupProject}
