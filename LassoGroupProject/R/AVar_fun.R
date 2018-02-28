@@ -1,9 +1,9 @@
-#' Calculate the Average Variance of an estimator
+#' Compute the Average Variance of an estimator
 #' 
-#' It calculates the Average Variance of an estimator
-#' from a Monte Carlo simulations study. 
-#' @param modelFit A matrix of fitting values of dimensions number of observations x 
-#' number of simulations
+#' Computes the Average Variance (AV) of an estimator
+#' in a Monte Carlo simulations study. 
+#' @param modelFit A matrix of fitting values of dimensions (number of observations x 
+#' number of simulations)
 #' @return A numeric value
 #' @keywords LassoGroupProject
 #' @export

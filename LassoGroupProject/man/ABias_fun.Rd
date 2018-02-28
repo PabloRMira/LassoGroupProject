@@ -2,21 +2,21 @@
 % Please edit documentation in R/ABias_fun.R
 \name{ABias_fun}
 \alias{ABias_fun}
-\title{Calculate the Average Squared Bias of an estimator}
+\title{Compute the Squared Average Bias of an estimator}
 \usage{
 ABias_fun(modelFit, truth)
 }
 \arguments{
-\item{modelFit}{A matrix of fitting values of dimensions number of observations x 
-number of simulations}
+\item{modelFit}{A matrix of fitting values of dimensions (number of observations x 
+number of simulations).}
 
-\item{truth}{The true values of the data generating process, i.e., \eqn{x_i^T \beta}}
+\item{truth}{The true values of the data generating process, i.e., \eqn{x_i^T \beta}.}
 }
 \value{
-A numeric value
+A numeric value.
 }
 \description{
-It calculates the Average Squared Bias of an estimator
-from a Monte Carlo simulations study.
+Computes the Squared Average Bias (Squared ABias) of an estimator
+in a Monte Carlo simulation study.
 }
 \keyword{LassoGroupProject}

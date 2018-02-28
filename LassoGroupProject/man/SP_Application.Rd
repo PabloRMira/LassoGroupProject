@@ -10,11 +10,14 @@ SP_Application(path = getwd(), adaList = c(0.01, 0.1, 0.5, 1, 2, 3),
 \arguments{
 \item{path}{The path to which you want the results to be exported to.}
 
-\item{adaList}{Gamma parameter for the adaptive Lasso. Default is 1.}
+\item{adaList}{Sequence of gamma parameters for the 
+adaptive Lasso to cross-validate.}
 
-\item{mccv}{Should Monte Carlo Cross Validation be applied for evaluation? Default is TRUE.}
+\item{mccv}{Should Monte Carlo Cross Validation 
+be applied for evaluation?}
 
-\item{cvIter}{Number of iterations for the Monte Carlo Cross Validation. Default is 100.}
+\item{cvIter}{Number of iterations for the Monte Carlo 
+Cross Validation.}
 
 \item{seed}{Seed for the simulations.}
 }
@@ -23,13 +26,13 @@ Result tables and plots.
 }
 \description{
 Replicate the results of the real data application with the 
-S&P data set.
+stock price dataset.
 }
 \details{
 This function creates a new directory, 'Application_SP' where
 the results will be saved.
 }
 \examples{
-SP_results <- SP_Application()
+results <- SP_Application()
 }
 \keyword{LassoGroupProject}

@@ -27,6 +27,8 @@
 #'   \item{Depreciation}{Depreciation, in US dollars}
 #'   \item{Earnings.Before.Interest.and.Tax}{Earnings Before Interest and Tax, in US dollars}
 #'   \item{Earnings.Before.Tax}{Earnings Before Tax, in US dollars}
+#'   \item{Earnings.Per.Share}{The portion of a company's profit allocated to each outstanding share of common stock, in US dollars}
+#'   \item{Estimated.Shares.Outstanding}{The weighted average of outstanding shares is a calculation that incorporates any changes in the amount of outstanding shares over a reporting period, in US dollars}
 #'   \item{Effect.of.Exchange.Rate}{Effect of Exchange Rate, in US dollars}
 #'   \item{Equity.Earnings.Loss.Unconsolidated.Subsidiary}{Equity Earnings Loss Unconsolidated Subsidiary, in US dollars}
 #'   \item{Fixed.Assets}{Fixed Assets, in US dollars}
@@ -83,8 +85,6 @@
 #'   \item{Total.Liabilities.Equity}{Total Liabilities Equity, in US dollars}
 #'   \item{Total.Revenue}{Total Revenue, in US dollars}
 #'   \item{Treasury.stocks}{Shares that were once a part of the float and shares outstanding but were subsequently repurchased by the company and decommissioned. These stocks do not have voting rights and do not pay any distributions, in US dollars}
-#'   \item{Earnings.Per.Share}{The portion of a company's profit allocated to each outstanding share of common stock, in US dollars}
-#'   \item{Estimated.Shares.Outstanding}{The weighted average of outstanding shares is a calculation that incorporates any changes in the amount of outstanding shares over a reporting period, in US dollars}
 #' }
 #' @source \url{https://www.kaggle.com/dgawlik/nyse/data}
 NULL

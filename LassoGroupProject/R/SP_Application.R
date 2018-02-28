@@ -1,18 +1,21 @@
 #' Replicate the results of the stock prices application
 #' 
 #' Replicate the results of the real data application with the 
-#' S&P data set.
+#' stock price dataset.
 #' @param path The path to which you want the results to be exported to. 
-#' @param adaList Gamma parameter for the adaptive Lasso. Default is 1.
-#' @param mccv Should Monte Carlo Cross Validation be applied for evaluation? Default is TRUE.
-#' @param cvIter Number of iterations for the Monte Carlo Cross Validation. Default is 100.
+#' @param adaList Sequence of gamma parameters for the 
+#' adaptive Lasso to cross-validate.
+#' @param mccv Should Monte Carlo Cross Validation 
+#' be applied for evaluation?
+#' @param cvIter Number of iterations for the Monte Carlo 
+#' Cross Validation.
 #' @param seed Seed for the simulations.
 #' @return Result tables and plots.
 #' @details This function creates a new directory, 'Application_SP' where
 #' the results will be saved.
 #' @keywords LassoGroupProject
 #' @export
-#' @examples SP_results <- SP_Application()
+#' @examples results <- SP_Application()
 SP_Application <- function(path = getwd(),
                            adaList = c(0.01, 0.1, 0.5, 1, 2, 3),
                            mccv = TRUE,

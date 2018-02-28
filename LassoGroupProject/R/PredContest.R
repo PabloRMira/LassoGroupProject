@@ -8,11 +8,13 @@
 #' @param sigmaList Vector with the choices of noise levels.
 #' @param nObs Number of observations.
 #' @param nSim Number of simulations.
-#' @param adaList Sequence of gamma parameters for the adaptive Lasso to cross-validate.
-#' @param seed Seed for the simulations
+#' @param adaList Sequence of gamma parameters for the 
+#' adaptive Lasso to cross-validate.
+#' @param seed Seed for the simulations.
 #' @return (Number of variable choices x Number of noise levels) plots and 
 #' tables in LaTeX and html. Moreover, the results are also saved in a list
-#' if you assign a variable to the function as in the example below.
+#' if you assign a variable to the function as in the example below. The 
+#' results are also exported to the directory specified in the 'path' argument.
 #' @details This function creates a new directory in the directory specified
 #' in the 'path' argument named 'Prediction_Contest'. This directory in turn
 #' include two subdirectories, 'Plots' and 'Tables'. Finally, in the 'Tables'
@@ -20,7 +22,7 @@
 #' in html-format and 'LaTeX' for the result tables in LaTeX format.
 #' @keywords LassoGroupProject
 #' @export
-#' @examples results <- PredContest() # It takes long time (around 5 hours)
+#' @examples results <- PredContest() # It takes long time with default arguments (around 5 hours)
 PredContest <- function(path = getwd(), 
                         pList = c(50, 100),
                         sigmaList = c(1, 5, 25), 
@@ -238,7 +240,7 @@ PredContest <- function(path = getwd(),
       }
       
       # Average gamma
-      avgGamma <- mean(gammaVec)
+      avgGamma <- round(mean(gammaVec), 3)
       
       # Table: Sparse-Model
       sparseTable <- as.data.frame(resultsArray)
@@ -273,7 +275,7 @@ PredContest <- function(path = getwd(),
       # Output LaTeX
       stargazer::stargazer(sparseTable, 
                            type="latex", 
-                           out=paste0("PredContest_Sigma_", sigma, "_p_", p, ".html"), 
+                           out=paste0("PredContest_Sigma_", sigma, "_p_", p, ".tex"), 
                            title="Prediction contest", 
                            summary=FALSE,
                            notes=c(paste0("Number of Observations: ", nObs),
@@ -318,6 +320,7 @@ PredContest <- function(path = getwd(),
   tictoc::toc(log=TRUE)
   
   # Save results to disk
+  setwd(simPath)
   save(PredResults, file="PredResults.RData")
   
   # Return results

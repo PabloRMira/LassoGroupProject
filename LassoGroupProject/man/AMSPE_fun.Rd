@@ -2,21 +2,21 @@
 % Please edit documentation in R/AMSPE_fun.R
 \name{AMSPE_fun}
 \alias{AMSPE_fun}
-\title{Function for calculating the Average Mean Squared Predicion Error (AMSPE) of an estimator}
+\title{Compute the Average Mean Squared Predicion Error (AMSPE) of an estimator}
 \usage{
 AMSPE_fun(modelFit, truth)
 }
 \arguments{
-\item{modelFit}{A matrix of fitting values of dimensions number of observations x 
-number of simulations}
+\item{modelFit}{A matrix of fitting values of dimensions (number of observations x 
+number of simulations).}
 
-\item{truth}{The true values of the data generating process, i.e., \eqn{x_i^T \beta}}
+\item{truth}{The true values of the data generating process, i.e., \eqn{x_i^T \beta}.}
 }
 \value{
 A numeric value
 }
 \description{
-This function calculates the Average Mean Squared Prediction Error (AMSPE) of an estimator
-from a Monte Carlo simulations study.
+Computes the Average Mean Squared Prediction Error (AMSPE) of an estimator
+in a Monte Carlo simulation study.
 }
 \keyword{LassoGroupProject}

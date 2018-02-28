@@ -9,9 +9,9 @@ ModelSelSim(path = getwd(), scenario = c("big", "small"), nObs = 1000,
   seed = 481)
 }
 \arguments{
-\item{path}{The path to which you want the graphics to be exported to.}
+\item{path}{The path to which you want the results to be exported to.}
 
-\item{scenario}{Big or small coefficients scenarios to be simulated. Default are both.}
+\item{scenario}{Big or small coefficients scenarios to be simulated.}
 
 \item{nObs}{Number of observations.}
 
@@ -25,7 +25,7 @@ ModelSelSim(path = getwd(), scenario = c("big", "small"), nObs = 1000,
 
 \item{adaGamma}{Gamma parameter for the adaptive Lasso. Default is 2.}
 
-\item{seed}{Seed for the simulations}
+\item{seed}{Seed for the simulations.}
 }
 \value{
 A (Two) pdf-file(s) exported to your path. Moreover, the 
@@ -38,6 +38,6 @@ consistency study. The default values are set such that the results you obtain
 are the same as in our term paper.
 }
 \examples{
-results <- ModelSelSim() # It takes around 1 hour
+results <- ModelSelSim() # It takes around 1 hour with default arguments
 }
 \keyword{LassoGroupProject}

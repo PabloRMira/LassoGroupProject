@@ -19,14 +19,16 @@ PredContest(path = getwd(), pList = c(50, 100), sigmaList = c(1, 5, 25),
 
 \item{nSim}{Number of simulations.}
 
-\item{adaList}{Sequence of gamma parameters for the adaptive Lasso to cross-validate.}
+\item{adaList}{Sequence of gamma parameters for the 
+adaptive Lasso to cross-validate.}
 
-\item{seed}{Seed for the simulations}
+\item{seed}{Seed for the simulations.}
 }
 \value{
 (Number of variable choices x Number of noise levels) plots and 
 tables in LaTeX and html. Moreover, the results are also saved in a list
-if you assign a variable to the function as in the example below.
+if you assign a variable to the function as in the example below. The 
+results are also exported to the directory specified in the 'path' argument.
 }
 \description{
 Replicate the results of the Monte Carlo Simulation for the prediction
@@ -41,6 +43,6 @@ directory are included two directories more, 'HTML' for the result tables
 in html-format and 'LaTeX' for the result tables in LaTeX format.
 }
 \examples{
-results <- PredContest() # It takes long time (around 5 hours)
+results <- PredContest() # It takes long time with default arguments (around 5 hours)
 }
 \keyword{LassoGroupProject}

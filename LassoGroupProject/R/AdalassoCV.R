@@ -1,18 +1,18 @@
-#' Adaptive Lasso with automatic \eqn{\gamma} selection with Cross-Validation
+#' Adaptive Lasso with automatic \eqn{\gamma} selection by cross-validation
 #' 
-#' Compute the best lambda and gamma sequences for the adaptive Lasso with 
-#' Cross-Validation.
-#' @param X The matrix of regressors.
+#' Computes the best (\eqn{\lambda}, \eqn{\gamma}) pair for the adaptive Lasso by 
+#' cross-validation.
+#' @param X A matrix of regressors.
 #' @param y The response variable.
-#' @param gammaSeq A sequence of gamma values.
+#' @param gammaSeq A sequence of gamma values to cross-validate.
 #' @param standardize Should the regressors be standardized?
-#' @param lambdaOption Either the minimizer (min) or the lambda which
-#' achieves the highest lambda with error under the 1-standard deviation
-#' of the minimum error.
-#' @param initEst Initial estimator for the adaptive Lasso. Either OLS
-#' or ridge regression.
-#' @return The tuple (lambda, gamma) of minimizers of the cross-validated 
-#' error curve for the adaptive Lasso with the estimated model.
+#' @param lambdaOption Should the lambda be the minimizer of the cross-validated
+#' error curve (min) or should the lambda be chosen such that its corresponding
+#' cross-validated error is only 1-standard-deviation above the minimum error (1se)?
+#' @param initEst Initial estimator for the adaptive Lasso. 
+#' Either OLS (OLS) or ridge regression (ridge).
+#' @return The tuple (\eqn{\lambda}, \eqn{\gamma}) of minimizers of the cross-validated 
+#' error curve for the adaptive Lasso together with the estimated model.
 #' @keywords LassoGroupProject
 #' @export
 AdalassoCV <- function(X, y, gammaSeq = c(0.5, 1, 2, 5),

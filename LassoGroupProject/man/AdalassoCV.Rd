@@ -2,33 +2,33 @@
 % Please edit documentation in R/AdalassoCV.R
 \name{AdalassoCV}
 \alias{AdalassoCV}
-\title{Adaptive Lasso with automatic \eqn{\gamma} selection with Cross-Validation}
+\title{Adaptive Lasso with automatic \eqn{\gamma} selection by cross-validation}
 \usage{
 AdalassoCV(X, y, gammaSeq = c(0.5, 1, 2, 5), standardize = FALSE,
   lambdaOption = "min", initEst = "OLS")
 }
 \arguments{
-\item{X}{The matrix of regressors.}
+\item{X}{A matrix of regressors.}
 
 \item{y}{The response variable.}
 
-\item{gammaSeq}{A sequence of gamma values.}
+\item{gammaSeq}{A sequence of gamma values to cross-validate.}
 
 \item{standardize}{Should the regressors be standardized?}
 
-\item{lambdaOption}{Either the minimizer (min) or the lambda which
-achieves the highest lambda with error under the 1-standard deviation
-of the minimum error.}
+\item{lambdaOption}{Should the lambda be the minimizer of the cross-validated
+error curve (min) or should the lambda be chosen such that its corresponding
+cross-validated error is only 1-standard-deviation above the minimum error (1se)?}
 
-\item{initEst}{Initial estimator for the adaptive Lasso. Either OLS
-or ridge regression.}
+\item{initEst}{Initial estimator for the adaptive Lasso. 
+Either OLS (OLS) or ridge regression (ridge).}
 }
 \value{
-The tuple (lambda, gamma) of minimizers of the cross-validated 
-error curve for the adaptive Lasso with the estimated model.
+The tuple (\eqn{\lambda}, \eqn{\gamma}) of minimizers of the cross-validated 
+error curve for the adaptive Lasso together with the estimated model.
 }
 \description{
-Compute the best lambda and gamma sequences for the adaptive Lasso with 
-Cross-Validation.
+Computes the best (\eqn{\lambda}, \eqn{\gamma}) pair for the adaptive Lasso by 
+cross-validation.
 }
 \keyword{LassoGroupProject}

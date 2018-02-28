@@ -3,24 +3,30 @@
 #' Replicate the results of the Monte Carlo Simulation for the model selection
 #' consistency study. The default values are set such that the results you obtain
 #' are the same as in our term paper.
-#' @param path The path to which you want the graphics to be exported to. 
-#' @param scenario Big or small coefficients scenarios to be simulated. Default are both.
+#' @param path The path to which you want the results to be exported to. 
+#' @param scenario Big or small coefficients scenarios to be simulated. 
 #' @param nObs Number of observations.
-#' @param p Number of variables.
+#' @param p Number of variables. 
 #' @param nSim Number of simulations.
 #' @param nDesigns Number of design matrices.
 #' @param sigma Standard deviation of the noise for the regression model.
 #' @param adaGamma Gamma parameter for the adaptive Lasso. Default is 2.
-#' @param seed Seed for the simulations
+#' @param seed Seed for the simulations.
 #' @return A (Two) pdf-file(s) exported to your path. Moreover, the 
 #' results are also saved in a list if you assign a variable 
 #' to the function as in the example below.
 #' @keywords LassoGroupProject
 #' @export
-#' @examples results <- ModelSelSim() # It takes around 1 hour
-ModelSelSim <- function(path = getwd(), scenario = c("big", "small"), 
-                     nObs = 1000, p = 50, nSim = 100, nDesigns = 100, 
-                     sigma = 0.1, adaGamma = 2, seed = 481) {
+#' @examples results <- ModelSelSim() # It takes around 1 hour with default arguments
+ModelSelSim <- function(path = getwd(), 
+                        scenario = c("big", "small"), 
+                        nObs = 1000, 
+                        p = 50, 
+                        nSim = 100, 
+                        nDesigns = 100, 
+                        sigma = 0.1, 
+                        adaGamma = 2, 
+                        seed = 481) {
 
   # Call ggplot
   library("ggplot2")
@@ -251,6 +257,7 @@ ModelSelSim <- function(path = getwd(), scenario = c("big", "small"),
   }
   
   # Save results to disk
+  setwd(simPath)
   save(ModelSelResults, file="ModelSelResults.RData")
   
   # Return results
