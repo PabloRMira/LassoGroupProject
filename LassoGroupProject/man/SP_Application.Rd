@@ -4,13 +4,13 @@
 \alias{SP_Application}
 \title{Replicate the results of the stock prices application}
 \usage{
-SP_Application(path = getwd(), adaGamma = 1, mccv = TRUE, cvIter = 100,
-  seed = 123)
+SP_Application(path = getwd(), adaList = c(0.01, 0.1, 0.5, 1, 2, 3),
+  mccv = TRUE, cvIter = 100, seed = 123)
 }
 \arguments{
 \item{path}{The path to which you want the results to be exported to.}
 
-\item{adaGamma}{Gamma parameter for the adaptive Lasso. Default is 1.}
+\item{adaList}{Gamma parameter for the adaptive Lasso. Default is 1.}
 
 \item{mccv}{Should Monte Carlo Cross Validation be applied for evaluation? Default is TRUE.}
 
@@ -28,5 +28,8 @@ S&P data set.
 \details{
 This function creates a new directory, 'Application_SP' where
 the results will be saved.
+}
+\examples{
+SP_results <- SP_Application()
 }
 \keyword{LassoGroupProject}

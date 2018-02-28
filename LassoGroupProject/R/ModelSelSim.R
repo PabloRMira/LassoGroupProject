@@ -249,6 +249,10 @@ ModelSelSim <- function(path = getwd(), scenario = c("big", "small"),
       ModelSelResults <- list(SmallCoef = IRframe)
     }
   }
+  
+  # Save results to disk
+  save(ModelSelResults, file="ModelSelResults.RData")
+  
   # Return results
   return(ModelSelResults)
   

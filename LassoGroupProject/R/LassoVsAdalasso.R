@@ -1,42 +1,42 @@
-#' Replicate the results of the prediction contest simulation study
+#' Replicate the results of the subprediction contest: Lasso vs Adaptive Lasso
 #' 
-#' Replicate the results of the Monte Carlo Simulation for the prediction
-#' contest. The default values are set such that the results you obtain
-#' are the same as in our term paper.
+#' Replicate the results of the Monte Carlo Simulation for the subprediction
+#' contest. In this subcontest, the Lasso and the adaptive Lasso
+#' compete in a way that the adaptive Lasso also selects its gamma
+#' parameter by means of cross-validation.  The default values 
+#' are set such that the results you obtain are the same as 
+#' in our term paper.
 #' @param path The path to which you want the results to be exported to. 
 #' @param pList Vector with the choices of number of variables.
 #' @param sigmaList Vector with the choices of noise levels.
 #' @param nObs Number of observations.
 #' @param nSim Number of simulations.
-#' @param adaList Sequence of gamma parameters for the adaptive Lasso to cross-validate.
+#' @param adaSeq Sequence of gamma parameters for the adaptive Lasso.
 #' @param seed Seed for the simulations
 #' @return (Number of variable choices x Number of noise levels) plots and 
 #' tables in LaTeX and html. Moreover, the results are also saved in a list
 #' if you assign a variable to the function as in the example below.
 #' @details This function creates a new directory in the directory specified
-#' in the 'path' argument named 'Prediction_Contest'. This directory in turn
+#' in the 'path' argument named 'Lasso_vs_Adalasso'. This directory in turn
 #' include two subdirectories, 'Plots' and 'Tables'. Finally, in the 'Tables'
 #' directory are included two directories more, 'HTML' for the result tables
 #' in html-format and 'LaTeX' for the result tables in LaTeX format.
 #' @keywords LassoGroupProject
 #' @export
-#' @examples results <- PredContest() # It takes long time (around 5 hours)
-PredContest <- function(path = getwd(), 
-                        pList = c(50, 100),
-                        sigmaList = c(1, 5, 25), 
-                        nObs = 500,
-                        nSim = 100, 
-                        adaList = c(0.01, 0.1, 0.5, 1, 2, 5, 7), 
+#' @examples results <- LassoVsAdalasso()
+LassoVsAdalasso <- function(path = getwd(), pList = c(50, 100),
+                        sigmaList = c(1, 5, 25), nObs = 500,
+                        nSim = 100, adaSeq = c(0.5, 1, 2, 5, 10), 
                         seed = 823) {
-
+  
   # Call ggplot
   library("ggplot2")
-
+  
   # Save current directory to return back
   currentDir <- getwd()
   
   # Create folder structure if it does not exist
-  simPath <- file.path(path, "Prediction_Contest")
+  simPath <- file.path(path, "Lasso_vs_Adalasso")
   plotsPath <- file.path(simPath, "Plots")
   tablesPath <- file.path(simPath, "Tables")
   htmlPath <- file.path(tablesPath, "HTML")
@@ -47,7 +47,7 @@ PredContest <- function(path = getwd(),
   dir.create(tablesPath, showWarnings = FALSE)
   dir.create(htmlPath, showWarnings = FALSE)
   dir.create(latexPath, showWarnings = FALSE)
-
+  
   # Set seed
   set.seed(seed)
   
@@ -56,12 +56,9 @@ PredContest <- function(path = getwd(),
   
   # Number of noise scenarios: sigma in {1, 3, 25}
   nSigmas <- length(sigmaList)
-
+  
   # Non-zero coefficients  
   nzCoef <- c(-5, 4, 10, -7, 8, 4, 9, -8, -3, 8)
-
-  # Number of methods
-  methodNumber <- 5
   
   # Initialize container list for the results
   PredResults <- list()
@@ -94,6 +91,14 @@ PredContest <- function(path = getwd(),
     # comparable for variables in different scales
     X <- t(t(X) / sqrt(colMeans(X^2) - (colMeans(X))^2))
     
+    # Initialize containers
+    # Fit container
+    methodNumber <- 2 # Number of methods to evaluate
+    modelFit <- array(NA, c(nObs, nSim, methodNumber))
+    
+    # Results as array
+    resultsArray <- array(NA, c(methodNumber, 3))
+    
     # True function
     truth <- X %*% coefVec
     
@@ -116,20 +121,7 @@ PredContest <- function(path = getwd(),
       # Signal-to-noise Ratio
       # definition in Bühlmann and van der Geer
       snratio <- sqrt(sum(truth^2)) / (sqrt(nObs) * sigma)
-
-      # Initialize container for the time
-      methodTime <- matrix(NA, nSim, methodNumber)
-
-      # Initialize containers
-      # Fit container
-      modelFit <- array(NA, c(nObs, nSim, methodNumber))
       
-      # Results as array
-      resultsArray <- matrix(NA, methodNumber, 4)
-
-      # Initialize container for optimal gamma sequence
-      gammaVec <- numeric(nSim)
-            
       # Loop over simulations
       for (k in 1:nSim) {
         
@@ -142,109 +134,48 @@ PredContest <- function(path = getwd(),
         
         # Generate data for the response
         y <- truth + noise			
-        
-        # Data frame for the regression
-        df <- data.frame(y = y, X)
-        
-        ############################################
-        ############### OLS ########################
-        ############################################
-        
-        # Fitting the model    
-        startTimer <- Sys.time()
-        olsModel <- lm(y ~ ., data = df)
-        endTimer <- Sys.time()
-        
-        methodTime[k, 1] <- round(as.vector(endTimer - startTimer) / 60, 3)
-        
-        # Model fit
-        modelFit[, k, 1] <- olsModel$fitted.values
-        
+      
         #######################################
         ############## LASSO ##################
         #######################################
         
         # Standard Lasso with Coordinate Descent (glmnet) 
-        startTimer <- Sys.time()
         lassoModel <- glmnet::cv.glmnet(X, y, alpha = 1, 
                                         standardize = FALSE)
-        endTimer <- Sys.time()
-
-        methodTime[k, 2] <- round(as.vector(endTimer - startTimer) / 60, 3)
-                
+        # lambdaOpt <- adaLassoModel$lambda.min
         lambdaOpt <- lassoModel$lambda.min
         
         # Lasso fit
-        modelFit[, k, 2] <- predict(lassoModel, 
+        modelFit[, k, 1] <- predict(lassoModel, 
                                     newx=X, s=lambdaOpt)
         
         #############################################
         ############ Adaptive Lasso #################
         #############################################
-
-        startTimer <- Sys.time()
-        adaLassoModel <- LassoGroupProject::AdalassoCV(X, y, 
-                                                       gammaSeq = adaList,
-                                                       standardize=FALSE)
-        endTimer <- Sys.time()
         
-        methodTime[k, 3] <- round(as.vector(endTimer - startTimer) / 60, 3)
-        
+        adaLassoModel <- LassoGroupProject::AdalassoCV(X, y, gammaSeq = adaSeq,
+                                    standardize=FALSE)
         lambdaOpt <- adaLassoModel$lambdaOpt
+        gammaOpt <- adaLassoModel$gammaOpt
         adaModel <- adaLassoModel$AdaModel
-        gammaVec[k] <- adaLassoModel$gammaOpt
         
         # AdaLasso Fit
-        modelFit[, k, 3] <- predict(adaModel, 
+        modelFit[, k, 2] <- predict(adaModel, 
                                     newx=X, s=lambdaOpt)
-        
-        ##########################################################
-        ############## Forward Stepwise Regression ###############
-        ##########################################################
-        
-        startTimer <- Sys.time()
-        null <- lm(y ~ 1, data = df)
-        full <- lm(y ~ ., data = df)
-        forwardModel <- stats::step(null, scope=list(lower=null, upper=full), 
-                                    direction="forward",
-                                    trace = 0)
-        endTimer <- Sys.time()
-        
-        methodTime[k, 4] <- round(as.vector(endTimer - startTimer) / 60, 3)
-        
-        modelFit[, k, 4] <- forwardModel$fitted.values
-        
-        ##########################################################
-        ############# Backward Stepwise Regression ###############
-        ##########################################################
-        
-        startTimer <- Sys.time()
-        backwardModel <- stats::step(full, data = df, direction="backward",
-                                     trace  = 0)
-        endTimer <- Sys.time()
-        
-        methodTime[k, 5] <- round(as.vector(endTimer - startTimer) / 60, 3)
-
-        modelFit[, k, 5] <- backwardModel$fitted.value
         
       }
       
       # Save results
-      for (s in 1:5) {
+      for (s in 1:2) {
         resultsArray[s, 1] <- LassoGroupProject::ABias_fun(modelFit[,,s], truth)
         resultsArray[s, 2] <- LassoGroupProject::AVar_fun(modelFit[,,s])
         resultsArray[s, 3] <- LassoGroupProject::AMSPE_fun(modelFit[,,s], truth)
-        resultsArray[s, 4] <- mean(methodTime[, s])
       }
-      
-      # Average gamma
-      avgGamma <- mean(gammaVec)
       
       # Table: Sparse-Model
       sparseTable <- as.data.frame(resultsArray)
-      names(sparseTable) <- c("Squared ABias", "AVariance", "AMSPE", "Time consumed")
-      rownames(sparseTable) <- c("OLS", "Lasso", "Adaptive Lasso", "Forward Stepwise",
-                                 "Backward Stepwise")
+      names(sparseTable) <- c("Squared ABias", "AVariance", "AMSPE")
+      rownames(sparseTable) <- c("Lasso", "Adaptive Lasso")
       
       # Save results in a list
       PredResults[[countList]] <- sparseTable
@@ -257,7 +188,7 @@ PredContest <- function(path = getwd(),
       stargazer::stargazer(sparseTable, 
                            type="html", 
                            out=paste0("PredContest_Sigma_", sigma, "_p_", p, ".html"), 
-                           title="Prediction Contest", 
+                           title="Lasso vs Adaptive Lasso", 
                            summary=FALSE,
                            notes=c(paste0("Number of Observations: ", nObs),
                                    paste0("Number of Variables: ", p),
@@ -265,7 +196,6 @@ PredContest <- function(path = getwd(),
                                    paste0("Number of Simulations: ", nSim),
                                    paste0("Sigma: ", sigma),
                                    paste0("Signal-to-Noise Ratio: ", round(snratio[1], 1)),
-                                   paste0("Average optimal gamma: ", avgGamma),
                                    paste0("Irrepresentable Constant: ", round(IR, 1))))
       
       setwd(latexPath)
@@ -274,7 +204,7 @@ PredContest <- function(path = getwd(),
       stargazer::stargazer(sparseTable, 
                            type="latex", 
                            out=paste0("PredContest_Sigma_", sigma, "_p_", p, ".html"), 
-                           title="Prediction contest", 
+                           title="Lasso vs Adaptive Lasso", 
                            summary=FALSE,
                            notes=c(paste0("Number of Observations: ", nObs),
                                    paste0("Number of Variables: ", p),
@@ -282,21 +212,19 @@ PredContest <- function(path = getwd(),
                                    paste0("Number of Simulations: ", nSim),
                                    paste0("Sigma: ", sigma),
                                    paste0("Signal-to-Noise Ratio: ", round(snratio, 1)),
-                                   paste0("Average optimal gamma: ", avgGamma),
                                    paste0("Irrepresentable Constant: ", round(IR, 1))))
       
       setwd(plotsPath)
       
       # Plot results
-      df <- sparseTable[c(-3, -4)]
+      df <- sparseTable[-3]
       df$model <- row.names(df)
       mdf <- reshape::melt(df)
-      mdf$modelOrd <- factor(mdf$model, levels=c("OLS", "Lasso", "Adaptive Lasso",
-                                                 "Forward Stepwise", "Backward Stepwise"))
+      mdf$modelOrd <- factor(mdf$model, levels=c("Lasso", "Adaptive Lasso"))
       
       pt <- ggplot(data = mdf, aes(x=modelOrd, y=value, fill=variable)) +
         geom_col() +
-        labs(title="AMSPE Decomposition",
+        labs(title="Lasso vs Adaptive Lasso with CV",
              subtitle=paste0("Number of Variables: ", p, ", SNR: ", round(snratio, 1)),
              caption=paste0("Irrepresentable Constant: ", round(IR, 2)),
              x="",
@@ -316,9 +244,6 @@ PredContest <- function(path = getwd(),
     }
   }
   tictoc::toc(log=TRUE)
-  
-  # Save results to disk
-  save(PredResults, file="PredResults.RData")
   
   # Return results
   return(PredResults)
