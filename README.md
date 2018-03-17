@@ -9,4 +9,6 @@ devtools::install_github("PabloRMira/LassoGroupProject/LassoGroupProject")
 
 Remember to load the package in your workspace before using it by running
 
+```R
 require(LassoGroupProject)
+```
